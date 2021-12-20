@@ -1,0 +1,25 @@
+{
+  "name": "learn-js-template",
+  "version": "1.0.0",
+  "description": "Learn JS",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jboucly/learn-js-template.git"
+  },
+  "keywords": [
+    "JS"
+  ],
+  "author": "Julien Boucly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jboucly/learn-js-template/issues"
+  },
+  "homepage": "https://github.com/jboucly/learn-js-template#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
