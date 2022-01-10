@@ -29,8 +29,30 @@ body {
   margin: 5px;
 }
 
+.centered {
+  margin-top: 75px;
+}
+
+.table-title {
+  text-align: center;
+}
+
+.reload-button {
+  margin-left: 30%;
+  border: 1px solid blue;
+  border-radius: 2px;
+  background-color: white;
+  color: blue;
+}
+
+.reload-button:hover {
+  background-color: blue;
+  color: white;
+  transition: 1s;
+}
+
 table {
-  margin-top: 100px;
+  margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50px;
