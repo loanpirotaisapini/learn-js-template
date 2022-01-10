@@ -1,3 +1,12 @@
+document.addEventListener("DOMContentLoaded", function() {
+    initializeUsers();
+
+    let reloadButton = document.getElementById('reload-button');
+    reloadButton.addEventListener('click', function() {
+        initializeUsers();
+    });
+});
+
 var users;
 
 /**
@@ -10,6 +19,14 @@ async function getRandomUsers() {
     } catch (err) {
         console.error(`[INDEX JS ERROR] : ${err}`);
     }
+}
+
+function initializeUsers() {
+    getRandomUsers()
+    .then(users => { 
+        this.users = users;
+        refreshData(this.users);
+    });
 }
 
 /**
@@ -77,9 +94,3 @@ function deleteUser(htmlId) {
     this.users.splice(index, 1);
     refreshData(this.users);
 }
-
-getRandomUsers()
-.then(users => { 
-    this.users = users;
-    refreshData(this.users);
-})
