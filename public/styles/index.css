@@ -37,9 +37,24 @@ table {
 }
 
 table, th, td {
-  border: solid 1px black;
+  border: 1px solid black;
   border-collapse: collapse;
   padding: 5px;
+}
+
+.delete-button {
+  border: 1px solid red;
+  border-radius: 2px;
+  background-color: white;
+  color: red;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.delete-button:hover {
+  background-color: red;
+  color: white;
+  transition: 1s;
 }
 
 .footer {

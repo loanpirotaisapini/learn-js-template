@@ -1,3 +1,5 @@
+var users;
+
 /**
  *  @description Return list for random users
  */
@@ -13,34 +15,71 @@ async function getRandomUsers() {
 /**
  * @description Set the users informations in the table
  */
-async function setUsersInTable() {
-    var users = await getRandomUsers();
+function setUsersInTable(users) {
+    let tbody = document.getElementById('users-tbody');
 
-    var usersTable = document.getElementById('users-table');
-    for (var i = 0; i < users.length; i++) {
-        var tr = document.createElement('tr');
-        usersTable.appendChild(tr);
+    for (let i = 0; i < users.length; i++) {
+        let tr = document.createElement('tr');
 
-        var userAvatar = users[i].avatar;
-        var img = document.createElement('img');
+        let userAvatar = users[i].avatar;
+        let img = document.createElement('img');
         img.src = userAvatar;
 
-        var tdAvatar = document.createElement('td');
+        let tdAvatar = document.createElement('td');
         tdAvatar.appendChild(img);
         tr.appendChild(tdAvatar);
 
-        var tdName = document.createElement('td');
+        let tdName = document.createElement('td');
         tdName.innerHTML = users[i].last_name;
         tr.appendChild(tdName);
         
-        var tdFirstname = document.createElement('td');
+        let tdFirstname = document.createElement('td');
         tdFirstname.innerHTML = users[i].first_name;
         tr.appendChild(tdFirstname);
         
-        var tdEmail = document.createElement('td');
+        let tdEmail = document.createElement('td');
         tdEmail.innerHTML = users[i].email;
         tr.appendChild(tdEmail);
+
+        let deleteButton = document.createElement('button');
+        deleteButton.setAttribute('id', `deleteButton-${i}`);
+        deleteButton.innerHTML = "Supprimer"
+        deleteButton.classList.add('delete-button');
+        deleteButton.addEventListener('click', function() {
+            deleteUser(this.id);
+        });
+
+        let tdAction = document.createElement('td');
+        tdAction.appendChild(deleteButton);
+        tr.appendChild(tdAction);
+
+        tbody.appendChild(tr);
     }
 }
 
-setUsersInTable().then(console.log("Data loaded and filled successfully"));
+/**
+ * @description Refresh data in users table 
+ */
+function refreshData(users) {
+    let tbody = document.getElementById('users-tbody');
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+
+    setUsersInTable(users);
+}
+
+/**
+ * @description Delete a user in table 
+ */
+function deleteUser(htmlId) {
+    let index = htmlId.split('-');
+    this.users.splice(index[1], 1);
+    refreshData(this.users);
+}
+
+getRandomUsers()
+.then(users => { 
+    this.users = users;
+    refreshData(this.users);
+})
