@@ -42,7 +42,7 @@ function setUsersInTable(users) {
         tr.appendChild(tdEmail);
 
         let deleteButton = document.createElement('button');
-        deleteButton.setAttribute('id', `deleteButton-${i}`);
+        deleteButton.setAttribute('id', `delete-button_${users[i].uid}`);
         deleteButton.innerHTML = "Supprimer"
         deleteButton.classList.add('delete-button');
         deleteButton.addEventListener('click', function() {
@@ -73,8 +73,9 @@ function refreshData(users) {
  * @description Delete a user in table 
  */
 function deleteUser(htmlId) {
-    let index = htmlId.split('-');
-    this.users.splice(index[1], 1);
+    let usersUid = htmlId.split('_');
+    let index = this.users.findIndex(user => user.uid === usersUid[1]);
+    this.users.splice(index, 1);
     refreshData(this.users);
 }
 
