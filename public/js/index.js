@@ -46,7 +46,7 @@ function setUsersInTable(users) {
         deleteButton.innerHTML = "Supprimer"
         deleteButton.classList.add('delete-button');
         deleteButton.addEventListener('click', function() {
-            deleteUser(this.parentElement.parentElement.id);
+            deleteUser(tr.id);
         });
 
         let tdAction = document.createElement('td');
