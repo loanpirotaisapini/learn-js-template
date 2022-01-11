@@ -1,96 +1,131 @@
-document.addEventListener("DOMContentLoaded", function() {
-    initializeUsers();
+import { User } from './users.js';
 
-    let reloadButton = document.getElementById('reload-button');
-    reloadButton.addEventListener('click', function() {
-        initializeUsers();
-    });
-});
+class UsersTable {
+    users = Array();
 
-var users;
-
-/**
- *  @description Return list for random users
- */
-async function getRandomUsers() {
-    try {
-        const res = await axios.get("https://random-data-api.com/api/users/random_user?size=100");
-        return res.data;
-    } catch (err) {
-        console.error(`[INDEX JS ERROR] : ${err}`);
+    constructor() {
+        this.init();
     }
-}
 
-function initializeUsers() {
-    getRandomUsers()
-    .then(users => { 
-        this.users = users;
-        refreshData(this.users);
-    });
-}
-
-/**
- * @description Set the users informations in the table
- */
-function setUsersInTable(users) {
-    let tbody = document.getElementById('users-tbody');
-
-    for (let i = 0; i < users.length; i++) {
-        let tr = document.createElement('tr');
-        tr.setAttribute('id', users[i].uid);
-
-        let userAvatar = users[i].avatar;
-        let img = document.createElement('img');
-        img.src = userAvatar;
-
-        let tdAvatar = document.createElement('td');
-        tdAvatar.appendChild(img);
-        tr.appendChild(tdAvatar);
-
-        let tdName = document.createElement('td');
-        tdName.innerHTML = users[i].last_name;
-        tr.appendChild(tdName);
-        
-        let tdFirstname = document.createElement('td');
-        tdFirstname.innerHTML = users[i].first_name;
-        tr.appendChild(tdFirstname);
-        
-        let tdEmail = document.createElement('td');
-        tdEmail.innerHTML = users[i].email;
-        tr.appendChild(tdEmail);
-
-        let deleteButton = document.createElement('button');
-        deleteButton.innerHTML = "Supprimer"
-        deleteButton.classList.add('delete-button');
-        deleteButton.addEventListener('click', function() {
-            deleteUser(tr.id);
+    async init() {
+        //Adding a new listener on click to load new users
+        document.getElementById('reload-button').addEventListener('click', async () => {
+            await this.initializeUsers();
         });
 
-        let tdAction = document.createElement('td');
-        tdAction.appendChild(deleteButton);
-        tr.appendChild(tdAction);
+        await this.initializeUsers();
+    }
 
-        tbody.appendChild(tr);
+    /**
+     *  @description Return list for random users
+     */
+    async getRandomUsers() {
+        let result = Array();
+
+        try {
+            const res = await axios.get("https://random-data-api.com/api/users/random_user?size=100");
+            res.data.forEach(element => {
+                //Changing avatar set and size
+                let avatarParameters = element.avatar.split('?', 1);
+                let newParameters = '?size=100x100&set=set4';
+                let userAvatar = avatarParameters.concat(newParameters);
+
+                let user = new User(
+                    element.uid,
+                    userAvatar,
+                    element.last_name,
+                    element.first_name,
+                    element.email
+                );
+
+                result.push(user);
+            });
+        } catch (err) {
+            console.error(`[INDEX JS ERROR] : ${err}`);
+        }
+
+        return result;
+    }
+
+    async initializeUsers() {
+        this.users = await this.getRandomUsers();
+        this.loadUsers();
+    }
+
+    loadUsers() {
+        let tbody = document.getElementById('users-tbody');
+
+        // Removing all elements in users-table's body
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        // Filling users-table's body with users' informations
+        this.fillUsersTable(this.users);
+    }
+
+    /**
+     * @description Fill the table with users' informations
+     */
+    fillUsersTable(users) {
+        let tbody = document.getElementById('users-tbody');
+        
+        users.forEach(user => {
+            let tr = document.createElement('tr');
+            tr.setAttribute('id', user.uid);
+
+            // -------------------- Setting Avatar -------------------------
+            let tdAvatar = document.createElement('td');
+            let avatarImg = document.createElement('img');
+            avatarImg.src = user.avatar;
+            tdAvatar.appendChild(avatarImg);
+
+            tr.appendChild(tdAvatar);
+
+            // -------------------- Setting Lastname -----------------------
+            let tdLastname = document.createElement('td');
+            tdLastname.innerHTML = user.lastname;
+
+            tr.appendChild(tdLastname);
+
+            // -------------------- Setting Firstname ----------------------
+            let tdFirstname = document.createElement('td');
+            tdFirstname.innerHTML = user.firstname;
+
+            tr.appendChild(tdFirstname);
+
+            // ---------------------- Setting email ------------------------
+            let tdEmail = document.createElement('td');
+            tdEmail.innerHTML = user.email;
+
+            tr.appendChild(tdEmail);
+
+            // ---------------------- Delete button ------------------------
+            let deleteButton = document.createElement('button');
+            deleteButton.innerHTML = "Supprimer";
+            deleteButton.classList.add('delete-button');
+            deleteButton.addEventListener('click', () => {
+                this.deleteUser(tr.id);
+            });
+
+            let tdActions = document.createElement('td');
+            tdActions.appendChild(deleteButton);
+
+            tr.appendChild(tdActions);
+
+            tbody.appendChild(tr);
+        });
+    }
+
+    /**
+     * @description Delete a user knowing its uid 
+     */
+    deleteUser(uid) {
+        let userToRemoveIndex = this.users.findIndex(user => user.uid === uid);
+        this.users.splice(userToRemoveIndex, 1);
+
+        this.loadUsers();
     }
 }
 
-/**
- * @description Refresh data in users table 
- */
-function refreshData(users) {
-    let tbody = document.getElementById('users-tbody');
-    while (tbody.firstChild) {
-        tbody.removeChild(tbody.firstChild);
-    }
-
-    setUsersInTable(users);
-}
-
-/**
- * @description Delete a user in table 
- */
-function deleteUser(htmlId) {
-    let index = this.users.findIndex(user => user.uid === htmlId);
-    this.users.splice(index, 1);
-    refreshData(this.users);
-}
+new UsersTable();
