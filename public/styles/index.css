@@ -67,6 +67,26 @@ table, th, td {
   padding: 5px;
 }
 
+button {
+  min-width: 75px;
+}
+
+.update-button {
+  border: 1px solid orange;
+  border-radius: 2px;
+  background-color: white;
+  color: orange;
+  padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.update-button:hover {
+  background-color: orange;
+  color: white;
+  transition: 1s;
+}
+
 .delete-button {
   border: 1px solid red;
   border-radius: 2px;
@@ -83,6 +103,44 @@ table, th, td {
   transition: 1s;
 }
 
+.modal {
+  position: fixed;
+  left: 25%;
+  top: 25%;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  opacity: 0;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid grey;
+}
+
+.modal.open {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.modal-container {
+  position: relative;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.user-form {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.form-element {
+  margin-bottom: 15px;
+  width: 70%;
+}
+
 .footer {
   position: fixed;
   width: 100%;
@@ -93,8 +151,12 @@ table, th, td {
   text-align: center;
 }
 
-.footer-block {
-  margin-top: 15px;
+.footer-items {
+  list-style: none;
+}
+
+.footer-item {
+  display: inline;
 }
 
 .footer-link {

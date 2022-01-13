@@ -19,6 +19,30 @@
        </ul>
     </div>
 
+    <div class="modal" id="user-modal-form">
+      <div class="modal-container">
+        <h1>Modifier</h1>
+        <hr>
+
+        <form id="user-form" class="user-form">
+          <input id="input-user-avatar" name="inputAvatar" class="form-element" type="text" placeholder="Avatar">
+          <br>
+
+          <input id="input-user-lastname" name="inputLastname" class="form-element" type="text" placeholder="Nom">
+          <br>
+          
+          <input id="input-user-firstname" name="inputFirstname" class="form-element" type="text" placeholder="Prénom">
+          <br>
+
+          <input id="input-user-email" name="inputEmail" class="form-element" type="text" placeholder="Email">
+          <br>
+
+          <button id="validate-button" class="update-button">Modifier</button>
+          <button id="close-button" class="delete-button">Annuler</button>
+        </form>
+      </div>
+    </div>
+
     <div class="centered">
       <h1 class="table-title">Liste des utilisateurs</h1>
       <button id="reload-button" class="reload-button">Recharger les données</button>
@@ -26,8 +50,8 @@
       <table id="users-table">
         <thead>
           <th style="width: 300px;">Avatar</th>
-          <th>Name</th>
-          <th>First name</th>
+          <th>Nom</th>
+          <th>Prénom</th>
           <th>Email</th>
           <th>Actions</th>
         </thead>
@@ -36,11 +60,13 @@
     </div>
 
     <div class="footer">
-      <div class="footer-block">
-        <a class="footer-link" href="https://github.com/loanpirotaisapini/learn-js-template">
-          Github Repository
-        </a>
-      </div>
+      <ul class="footer-items">
+        <li class="footer-item">
+          <a class="footer-link" href="https://github.com/loanpirotaisapini/learn-js-template">
+            Github Repository
+          </a>
+        </li>
+      </ul>
     </div>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
